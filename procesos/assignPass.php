@@ -2,25 +2,42 @@
 
 include_once '../conexion.php';
 
+$vUsers = array();
+
 $c = "SELECT id_alumno,numerodni_alumno FROM alumno;";
 $s = pg_query($c);
 while($r = pg_fetch_array($s))
 {
 	$id = $r['id_alumno'];
 	$dni = $r['numerodni_alumno'];
-	if(strlen($dni) > 6)
+	$user = '';
+	$exit = false;
+	do
 	{
-		$user = $dni;
-		$pass = '';
-		for($i = 0; $i <= 9; $i++)
+		$user = rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+		
+		//$user ='1234';
+		if(in_array($user, $vUsers))
 		{
-			$pass .= rand(0,9);
+			$exit = false;
 		}
+		else
+		{
+			$exit = true;
+			$vUsers[] = $user;
+		}
+	}while($exit == false);
 
-		$sqlGuadar = "UPDATE alumno SET username='$user',pass='$pass' WHERE id_alumno='$id';";
-		echo $sqlGuadar;
-		echo '<br/>';
+	$pass = '';
+
+	for($i = 0; $i <= 9; $i++)
+	{
+		$pass .= rand(0,9);
 	}
+	//$pass = md5($pass);
+	$sqlGuadar = "UPDATE alumno SET username='$user',pass='$pass' WHERE id_alumno='$id';";
+	echo $sqlGuadar;
+	echo '<br/>';
 }
 
 

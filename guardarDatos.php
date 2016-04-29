@@ -5,7 +5,8 @@ include_once 'conexion.php';
 $id = $_REQUEST['id'];
 $nombre = $_REQUEST['nombre'];
 $apellido = $_REQUEST['apellido'];
-
+$pass = $_REQUEST['pass'];
+$pass = md5($pass);
 $cUpdate = "UPDATE alumno SET primer_login='FALSE', nombre_alumno='$nombre', apellido_alumno='$apellido' WHERE id_alumno='$id';";
 
 ?>
