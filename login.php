@@ -20,12 +20,6 @@ while($rLogin = pg_fetch_array($sLogin))
 		"first":"'.$first.'",
 		"id":"'.$id.'"
 	}';
-
-	if($first == 't')
-	{
-		$cUpdate = "UPDATE alumno SET primer_login='FALSE' WHERE id_alumno='$id';";
-		pg_query($cUpdate);
-	}
 }
 
 $outJson .= "]";
