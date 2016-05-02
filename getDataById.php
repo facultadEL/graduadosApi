@@ -24,6 +24,7 @@ while($r = pg_fetch_array($s))
 	$email = empty($r['mail_alumno']) ? '' : $r['mail_alumno'];
 	$username = $r['username'];
 	$pass = '';
+	$primerLogin = $r['primer_login'];
 
 	$outJson .= '{
 		"id":"'.$id.'",
@@ -33,7 +34,8 @@ while($r = pg_fetch_array($s))
 		"localidad":"'.$localidad.'",
 		"email":"'.$email.'",
 		"username":"'.$username.'",
-		"pass":"'.$pass.'"
+		"pass":"'.$pass.'",
+		"primerLogin":"'.$primerLogin.'"
 	}';
 }
 
