@@ -1,7 +1,9 @@
 <?php
 session_start();
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
-$id = $_COOKIE["id"];
+include_once "conexion.php";
+//$id = $_COOKIE["id"];
+$id = 1;
 
 $c = "SELECT * FROM alumno WHERE id_alumno='$id';";
 $s = pg_query($c);
@@ -35,5 +37,8 @@ while($r = pg_fetch_array($s))
 	}';
 }
 
+$outJson .= "]";
+
+echo $outJson;
 
 ?>
