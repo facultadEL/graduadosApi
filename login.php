@@ -11,9 +11,9 @@ $sLogin = pg_query($cLogin);
 $outJson = "[";
 while($rLogin = pg_fetch_array($sLogin))
 {
-
 	$first = $rLogin['primer_login'];
 	$id = $rLogin['id_alumno'];
+	setcookie("id",$id,0);
 
 	$outJson .= '{
 		"success":true,
