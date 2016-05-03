@@ -26,6 +26,43 @@ while($r = pg_fetch_array($s))
 	$pass = '';
 	$primerLogin = $r['primer_login'];
 
+	$cTel = "SELECT * FROM telefonos_del_alumno WHERE alumno_fk='$id';";
+	$sTel = pg_query($cTel);
+
+	$caracCel = "";
+	$cel = "";
+	$celId = "-1";
+	$caracFijo = "";
+	$fijo = "";
+	$fijoId = "-1";
+
+	while($rTel = pg_fetch_array($sTel))
+	{
+		$tipo = strtolower($rTel['duenio_del_telefono']);
+		if(strpos($tipo, "fijo") > -1)
+		{
+			if($fijoId == "-1")
+			{
+				$fijoId = $rTel['id_telefonos_del_alumno'];
+				$caracFijo = $rTel['caracteristica_alumno'];
+				$fijo = $rTel['telefono_alumno'];
+			}
+		}
+		else
+		{
+			if(strpos($tipo, "cel") > -1)
+			{
+				if($celId == "-1")
+				{
+					$celId = $rTel['id_telefonos_del_alumno'];
+					$caracCel = $rTel['caracteristica_alumno'];
+					$cel = $rTel['telefono_alumno'];
+				}
+			}
+		}
+	}
+
+
 	$outJson .= '{
 		"id":"'.$id.'",
 		"nombre":"'.$nombre.'",
@@ -35,7 +72,13 @@ while($r = pg_fetch_array($s))
 		"email":"'.$email.'",
 		"username":"'.$username.'",
 		"pass":"'.$pass.'",
-		"primerLogin":"'.$primerLogin.'"
+		"primerLogin":"'.$primerLogin.'",
+		"fijoId":"'.$fijoId.'",
+		"caracFijo":"'.$caracFijo.'",
+		"fijo":"'.$fijo.'",
+		"celId":"'.$celId.'",
+		"caracCel":"'.$caracCel.'",
+		"cel":"'.$cel.'"
 	}';
 }
 
