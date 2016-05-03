@@ -1,20 +1,15 @@
 <?php
-session_start();
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
-include_once "conexion.php";
+include_once 'conexion.php';
 
-if(isset($_COOKIE["id"]))
+$dni = $_REQUEST['dni'];
+$c = "SELECT * FROM alumno WHERE numerodni_alumno='$dni' LIMIT 1;";
+$s = pg_query($c);
+
+$outJson = "[";
+while($r = pg_fetch_array($s))
 {
-	//$id = $_COOKIE["id"];
-	$id = 1;
-
-	$c = "SELECT * FROM alumno WHERE id_alumno='$id';";
-	$s = pg_query($c);
-
-	$outJson = "[";
-	while($r = pg_fetch_array($s))
-	{
-		if($outJson != "[")
+	if($outJson != "[")
 		{
 			$outJson .= ',';
 		}
@@ -22,7 +17,6 @@ if(isset($_COOKIE["id"]))
 		$id = $r['id_alumno'];
 		$nombre = ucwords(strtolower($r['nombre_alumno']));
 		$apellido = ucwords(strtolower($r['apellido_alumno']));
-		$dni = (empty($r['numerodni_alumno'])) ? '' : (strlen($r['numerodni_alumno']) > 5 ? $r['numerodni_alumno'] : '');
 		$localidad = $r['localidad_viviendo_alumno'];
 		$email = empty($r['mail_alumno']) ? '' : $r['mail_alumno'];
 		$username = $r['username'];
@@ -84,21 +78,10 @@ if(isset($_COOKIE["id"]))
 			"cel":"'.$cel.'",
 			"isset":"true"
 		}';
-	}
-
-	$outJson .= "]";
-
-	echo $outJson;
 }
-else
-{
-	$outJson = '[{
-		"id":"-1",
-		"isset":"false",
-		"primerLogin":"t"
-	}]';
 
-	echo $outJson;
-}
+$outJson .= "]";
+
+echo $outJson;
 
 ?>
