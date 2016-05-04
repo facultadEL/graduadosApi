@@ -6,7 +6,7 @@ include_once "conexion.php";
 //Si es 1 es graduados, si es 2, es posgrado
 $type = empty($_REQUEST['tipo']) ? '1' : $_REQUEST['tipo'];
 
-$c = "SELECT * FROM curso WHERE tipo='$type';";
+$c = "SELECT * FROM curso WHERE tipo='$type' AND active IS TRUE;";
 $s = pg_query($c);
 
 $outJson = "[";

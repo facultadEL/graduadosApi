@@ -5,8 +5,8 @@ include_once "conexion.php";
 
 if(isset($_COOKIE["id"]))
 {
-	//$id = $_COOKIE["id"];
-	$id = 1;
+	$id = $_COOKIE["id"];
+	//$id = 1;
 
 	$c = "SELECT * FROM alumno WHERE id_alumno='$id';";
 	$s = pg_query($c);
