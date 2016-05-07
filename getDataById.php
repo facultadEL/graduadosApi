@@ -1,5 +1,4 @@
 <?php
-session_start();
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
 include_once "conexion.php";
 
