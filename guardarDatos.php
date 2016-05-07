@@ -15,6 +15,8 @@ $fijo = empty($_REQUEST['fijo']) ? '' : $_REQUEST['fijo'];
 $username = empty($_REQUEST['username']) ? '' : $_REQUEST['username'];
 $passRequired = empty($_REQUEST['passRequired']) ? '' : $_REQUEST['passRequired'];
 $password = empty($_REQUEST['password']) ? '' : $_REQUEST['password'];
+$fechaNac = empty($_REQUEST['birthDate']) ? '1900-01-01' : $_REQUEST['birthDate'];
+$localidadId = empty($_REQUEST['localidadId']) ? '0' : $_REQUEST['localidadId'];
 
 $celId = $_REQUEST['celId'];
 $fijoId = $_REQUEST['fijoId'];
@@ -30,6 +32,8 @@ if($id != "-1")
 	if($dni != '') $cUpdate.= ",numerodni_alumno='$dni' ";
 	if($email != '') $cUpdate.= ",mail_alumno='$email' ";
 	if($username != '') $cUpdate.= ",username='$username' ";
+	if($localidadId != '0') $cUpdate.= ",localidad_viviendo_alumno='$localidadId' ";
+	if($fechaNac != '') $cUpdate.= ",fechanacimiento_alumno='$fechaNac' ";
 	if($password != '')
 	{
 		$password = md5($password);
@@ -76,7 +80,7 @@ else
 
 	$password = md5($password);
 
-	$cCreate = "INSERT INTO alumno(id_alumno,primer_login,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,username,pass) VALUES('$idAl','FALSE','$nombre','$apellido','$dni','$email','$username','$password');";
+	$cCreate = "INSERT INTO alumno(id_alumno,primer_login,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,username,pass,fechanacimiento_alumno,localidad_viviendo_alumno) VALUES('$idAl','FALSE','$nombre','$apellido','$dni','$email','$username','$password','$fechaNac','$localidadId');";
 
 	$cTel = "";
 
