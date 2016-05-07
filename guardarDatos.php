@@ -100,6 +100,21 @@ else
 
 $success = true;
 
+$error = 0;
+if (!pg_query($sqlGuardar)){
+	$errorpg = pg_last_error($conn);
+	$termino = "ROLLBACK";
+	$error=1;
+}else{
+	$termino = "COMMIT";
+}
+pg_query($termino);
+
+if($error == 1)
+{
+	$success = false:
+}
+
 $outJson = '[{
 	"success":"'.$success.'",
 	"sql":"'.$sqlGuardar.'",
