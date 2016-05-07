@@ -112,7 +112,7 @@ pg_query($termino);
 
 if($error == 1)
 {
-	$success = false:
+	$success = false;
 }
 
 $outJson = '[{

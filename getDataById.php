@@ -22,7 +22,18 @@ if(isset($_COOKIE["id"]))
 		$nombre = ucwords(strtolower($r['nombre_alumno']));
 		$apellido = ucwords(strtolower($r['apellido_alumno']));
 		$dni = (empty($r['numerodni_alumno'])) ? '' : (strlen($r['numerodni_alumno']) > 5 ? $r['numerodni_alumno'] : '');
-		$localidad = $r['localidad_viviendo_alumno'];
+		$localidadId = $r['localidad_viviendo_alumno'];
+		$fechaNac = $r['fechanacimiento_alumno'];
+		
+		$c = "SELECT l.nombre as loc,p.nombre as prov FROM localidad l INNER JOIN provincia p ON(l.fk_provincia = p.id) WHERE l.id='$localidadId';";
+		$s = pg_query($c);
+		$r = pg_fetch_array($s);
+		
+		$l = ucwords(strtolower($r['loc']));
+		$p = ucwords(strtolower($r['prov']));
+		
+		$localidad = $l.' - '.$p;
+		
 		$email = empty($r['mail_alumno']) ? '' : $r['mail_alumno'];
 		$username = $r['username'];
 		$pass = '';
@@ -81,6 +92,7 @@ if(isset($_COOKIE["id"]))
 			"celId":"'.$celId.'",
 			"caracCel":"'.$caracCel.'",
 			"cel":"'.$cel.'",
+			"fechaNac":"'.$fechaNac.'",
 			"isset":"true"
 		}';
 	}
