@@ -2,9 +2,14 @@
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
 include_once "conexion.php";
 
-if(isset($_COOKIE["id"]))
+$id = $_REQUEST['id'];
+if($id == -1)
 {
-	$id = $_COOKIE["id"];
+	$id = isset($_COOKIE["id"]) ? $_COOKIE["id"] : -1;
+}
+
+if($id != -1)
+{
 	//$id = 1;
 
 	$c = "SELECT * FROM alumno WHERE id_alumno='$id';";
@@ -25,12 +30,12 @@ if(isset($_COOKIE["id"]))
 		$localidadId = $r['localidad_viviendo_alumno'];
 		$fechaNac = $r['fechanacimiento_alumno'];
 		
-		$c = "SELECT l.nombre as loc,p.nombre as prov FROM localidad l INNER JOIN provincia p ON(l.fk_provincia = p.id) WHERE l.id='$localidadId';";
-		$s = pg_query($c);
-		$r = pg_fetch_array($s);
+		$cLoc = "SELECT l.nombre as loc,p.nombre as prov FROM localidad l INNER JOIN provincia p ON(l.fk_provincia = p.id) WHERE l.id='$localidadId';";
+		$sLoc = pg_query($cLoc);
+		$rLoc = pg_fetch_array($sLoc);
 		
-		$l = ucwords(strtolower($r['loc']));
-		$p = ucwords(strtolower($r['prov']));
+		$l = ucwords(strtolower($rLoc['loc']));
+		$p = ucwords(strtolower($rLoc['prov']));
 		
 		$localidad = $l.' - '.$p;
 		
