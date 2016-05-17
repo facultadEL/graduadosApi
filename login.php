@@ -14,13 +14,15 @@ while($rLogin = pg_fetch_array($sLogin))
 	$first = $rLogin['primer_login'];
 	$id = $rLogin['id_alumno'];
 	$habilitado = $rLogin['habilitado'];
+	$administrador = $rLogin['administrador'];
 	setcookie("id",$id,0);
 
 	$outJson .= '{
 		"success":true,
 		"first":"'.$first.'",
 		"id":"'.$id.'",
-		"habilitado":"'.$habilitado.'"
+		"habilitado":"'.$habilitado.'",
+		"administrador":"'.$administrador.'"
 	}';
 	
 	$date = date('Y-m-d');
