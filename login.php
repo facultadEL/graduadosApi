@@ -33,6 +33,8 @@ while($rLogin = pg_fetch_array($sLogin))
 
 $outJson .= "]";
 
+pg_close($conn);
+
 echo $outJson;
 
 ?>

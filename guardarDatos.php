@@ -121,6 +121,8 @@ $outJson = '[{
 	"created":"'.$create.'"
 }]';
 
+pg_close($conn);
+
 echo $outJson;
 
 ?>

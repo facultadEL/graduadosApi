@@ -104,6 +104,8 @@ if($id != -1)
 
 	$outJson .= "]";
 
+	pg_close($conn);
+
 	echo $outJson;
 }
 else
@@ -113,6 +115,8 @@ else
 		"isset":"false",
 		"primerLogin":"t"
 	}]';
+
+	pg_close($conn);
 
 	echo $outJson;
 }

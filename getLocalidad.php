@@ -31,6 +31,8 @@ while($r = pg_fetch_array($s))
 
 $outJson .= "]";
 
+pg_close($conn);
+
 echo $outJson;
 
 ?>
