@@ -17,6 +17,7 @@ $passRequired = empty($_REQUEST['passRequired']) ? '' : $_REQUEST['passRequired'
 $password = empty($_REQUEST['password']) ? '' : $_REQUEST['password'];
 $fechaNac = empty($_REQUEST['birthDate']) ? '1900-01-01' : $_REQUEST['birthDate'];
 $localidadId = empty($_REQUEST['localidadId']) ? '0' : $_REQUEST['localidadId'];
+$regional = empty($_REQUEST['regional']) ? '' : $_REQUEST['regional']; 
 
 $celId = $_REQUEST['celId'];
 $fijoId = $_REQUEST['fijoId'];
@@ -39,6 +40,7 @@ if($id != "-1")
 		$password = md5($password);
 		$cUpdate.= ",pass='$password' ";
 	}
+	if($regional != '') $cUpdate.= ",regional_fk='$regional' ";
 
 	$cUpdate .= "WHERE id_alumno='$id';";
 
@@ -80,7 +82,7 @@ else
 
 	$password = md5($password);
 
-	$cCreate = "INSERT INTO alumno(id_alumno,primer_login,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,username,pass,fechanacimiento_alumno,localidad_viviendo_alumno) VALUES('$idAl','FALSE','$nombre','$apellido','$dni','$email','$username','$password','$fechaNac','$localidadId');";
+	$cCreate = "INSERT INTO alumno(id_alumno,primer_login,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,username,pass,fechanacimiento_alumno,localidad_viviendo_alumno,regional_fk) VALUES('$idAl','FALSE','$nombre','$apellido','$dni','$email','$username','$password','$fechaNac','$localidadId','$regional');";
 
 	$cTel = "";
 

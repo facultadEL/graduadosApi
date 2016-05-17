@@ -29,6 +29,7 @@ if($id != -1)
 		$dni = (empty($r['numerodni_alumno'])) ? '' : (strlen($r['numerodni_alumno']) > 5 ? $r['numerodni_alumno'] : '');
 		$localidadId = $r['localidad_viviendo_alumno'];
 		$fechaNac = $r['fechanacimiento_alumno'];
+		$regional = $r['regional_fk'];
 		
 		$cLoc = "SELECT l.nombre as loc,p.nombre as prov FROM localidad l INNER JOIN provincia p ON(l.fk_provincia = p.id) WHERE l.id='$localidadId';";
 		$sLoc = pg_query($cLoc);
@@ -87,6 +88,7 @@ if($id != -1)
 			"apellido":"'.$apellido.'",
 			"dni":"'.$dni.'",
 			"localidad":"'.$localidad.'",
+			"regional":"'.$regional.'",
 			"email":"'.$email.'",
 			"username":"'.$username.'",
 			"pass":"'.$pass.'",
