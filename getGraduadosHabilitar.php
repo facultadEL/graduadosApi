@@ -3,7 +3,7 @@ header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que
 include_once "conexion.php";
 
 $id = $_REQUEST['id'];
-$c = "SELECT a.* FROM alumno a WHERE a.habilitado IS FALSE AND a.regional_fk = (SELECT r.regional_fk FROM alumno r WHERE r.id_alumno='$id');";
+$c = "SELECT a.* FROM alumno a WHERE a.habilitado IS FALSE AND a.regional_fk = (SELECT r.regional_fk FROM alumno r WHERE r.id_alumno='$id') ORDER BY a.apellido_alumno,a.nombre_alumno;";
 $s = pg_query($c);
 $outJson = "[";
 while($r = pg_fetch_array($s))
