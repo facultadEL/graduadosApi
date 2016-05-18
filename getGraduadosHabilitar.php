@@ -8,22 +8,22 @@ $s = pg_query($c);
 $outJson = "[";
 while($r = pg_fetch_array($s))
 {
-    if($outJson != "[")
-    {
-        $outJson .= ",";
-    }
-    
-    $id = $r['id_alumno'];
-    $nombre = $r['nombre_alumno'];
-    $apellido = $r['apellido_alumno'];
-    $dni = $r['numerodni_alumno'];
-    
-    $outJson .= '{
-        "id":"'.$id.'",
-        "nombre":"'.$nombre.'",
-        "apellido":"'.$apellido.'",
-        "dni":"'.$dni.'"
-    }'
+	if($outJson != "[")
+	{
+		$outJson .= ",";
+	}
+	
+	$id = $r['id_alumno'];
+	$nombre = ucwords(strtolower($r['nombre_alumno']));
+	$apellido = ucwords(strtolower($r['apellido_alumno']));
+	$dni = $r['numerodni_alumno'];
+	
+	$outJson .= '{
+		"id":"'.$id.'",
+		"nombre":"'.$nombre.'",
+		"apellido":"'.$apellido.'",
+		"dni":"'.$dni.'"
+	}';
 }
 
 $outJson .= "]";
