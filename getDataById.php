@@ -3,10 +3,6 @@ header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que
 include_once "conexion.php";
 
 $id = $_REQUEST['id'];
-if($id == -1)
-{
-	$id = isset($_COOKIE["id"]) ? $_COOKIE["id"] : -1;
-}
 
 if($id != -1)
 {

@@ -15,8 +15,7 @@ while($rLogin = pg_fetch_array($sLogin))
 	$id = $rLogin['id_alumno'];
 	$habilitado = $rLogin['habilitado'];
 	$administrador = $rLogin['administrador'];
-	setcookie("id",$id,0);
-
+	
 	$outJson .= '{
 		"success":true,
 		"first":"'.$first.'",
