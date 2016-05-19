@@ -18,6 +18,7 @@ while($r = pg_fetch_array($s))
 		$nombre = ucwords(strtolower($r['nombre_alumno']));
 		$apellido = ucwords(strtolower($r['apellido_alumno']));
 		$fechaNac = $r['fechanacimiento_alumno'];
+		$regional = $r['regional_fk'];
 		$localidadId = $r['localidad_viviendo_alumno'];
 		$email = empty($r['mail_alumno']) ? '' : $r['mail_alumno'];
 		$username = $r['username'];
@@ -76,6 +77,7 @@ while($r = pg_fetch_array($s))
 			"apellido":"'.$apellido.'",
 			"dni":"'.$dni.'",
 			"localidad":"'.$localidad.'",
+			"regional":"'.$regional.'",
 			"email":"'.$email.'",
 			"username":"'.$username.'",
 			"pass":"'.$pass.'",
