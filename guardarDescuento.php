@@ -55,7 +55,45 @@ if($idEmpresa == "-1") //Creo la empresa y el descuento
 	}
 	// cerramos
 	ftp_close($conn_serv);
+	/*
+	$isPNG = false;
+	if($ext == "png")
+	{
+		$isPNG = true;
+	}
+
+	$imagen_origen = ($isPNG) ? imagecreatefrompng($destinoImagen) : imagecreatefromjpeg($destinoImagen);
+
+	//obtengo el ancho de la imagen original
+	$ancho_origen = imagesx($imagen_origen);
+	//obtengo el alto de la imagen original
+	$alto_origen = imagesy($imagen_origen);
 	
+	$ancho=600;
+	$alto=400;
+	
+	if($ancho_origen>$alto_origen){
+	//foto horizontal
+		$ancho_final=$ancho;
+		$alto_final=$alto_origen*$ancho_final/$ancho_origen;    
+	}else{
+	//fotos verticales
+		$alto_final=$alto;
+		$ancho_final=$ancho_origen*$alto_final/$alto_origen;
+	}
+	// creo la imagen con el tamaño que le pase
+	$imagen_destino = imagecreatetruecolor($ancho_final ,$alto_final );
+
+	imagecopyresized( $imagen_destino, $imagen_origen, 0, 0, 0, 0, $ancho_final, $alto_final, $ancho_origen, $alto_origen);
+
+	if($isPNG)
+	{
+		imagepng( $imagen_destino,$destinoImagen,9 );
+	}else
+	{
+		imagejpeg( $imagen_destino,$destinoImagen,100 );
+	}
+	*/
 	$c = "SELECT max(id) FROM empresa";
 	$s = pg_query($c);
 	$r = pg_fetch_array($s);
