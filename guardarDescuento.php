@@ -109,6 +109,29 @@ else
 	$c = "INSERT INTO descuento(nombre,url,detalle,empresa_fk) VALUES('$titulo','$url','$detalle','$idEmpresa');";
 }
 
-echo $c;
+$success = true;
+
+$error = 0;
+if (!pg_query($c)){
+	$errorpg = pg_last_error($conn);
+	$termino = "ROLLBACK";
+	$error=1;
+}else{
+	$termino = "COMMIT";
+}
+pg_query($termino);
+
+if($error == 1)
+{
+	$success = false;
+}
+
+$outJson = '[{
+	"success":"'.$success.'",
+}]';
+
+pg_close($conn);
+
+echo $outJson;
 
 ?>
