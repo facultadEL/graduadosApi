@@ -4,30 +4,38 @@ include_once "conexion.php";
 
 $id = $_REQUEST['id'];
 
-$c = "SELECT d.nombre as titulo,d.detalle,d.url as url,e.imagen,e.nombre as empresa FROM descuento d INNER JOIN empresa e ON(d.empresa_fk=e.id) WHERE e.regional_fk=(SELECT regional_fk FROM alumno WHERE id_alumno='$id');";
+$c = "SELECT d.id,d.nombre as titulo,d.detalle,d.url as url,e.imagen,e.nombre as empresa,coalesce(p.puntuacion,0) as puntuacion, coalesce((select avg(puntuacion) FROM puntaje WHERE descuento_fk=d.id),0) as promedio, (select count(id) from puntaje where descuento_fk=d.id) as cant FROM descuento d INNER JOIN empresa e ON(d.empresa_fk=e.id) LEFT JOIN puntaje p ON(p.alumno_fk = '$id') WHERE e.regional_fk=(SELECT regional_fk FROM alumno WHERE id_alumno='$id');";
 $s = pg_query($c);
 
 $outJson = "[";
 while($r = pg_fetch_array($s))
 {
-    if($outJson != "[")
-    {
-        $outJson .= ",";
-    }
-    
-    $titulo = $r['titulo'];
-    $url = $r['url'];
-    $imagen = $r['imagen'];
-    $empresa = $r['empresa'];
-    $detalle = $r['detalle'];
-    
-    $outJson .= '{
-        "titulo":"'.$titulo.'",
-        "url":"'.$url.'",
-        "imagen":"'.$imagen.'",
-        "empresa":"'.$empresa.'",
-        "detalle":"'.$detalle.'"
-    }';
+	if($outJson != "[")
+	{
+		$outJson .= ",";
+	}
+	
+	$id = $r['id'];
+	$titulo = $r['titulo'];
+	$url = $r['url'];
+	$imagen = $r['imagen'];
+	$empresa = $r['empresa'];
+	$detalle = $r['detalle'];
+	$puntuacion = $r['puntuacion'];
+	$promedio = $r['promedio'];
+	$cantidad = $r['cant'];
+	
+	$outJson .= '{
+		"id":"'.$id.'",
+		"titulo":"'.$titulo.'",
+		"url":"'.$url.'",
+		"imagen":"'.$imagen.'",
+		"empresa":"'.$empresa.'",
+		"detalle":"'.$detalle.'",
+		"puntuacion":"'.$puntuacion.'",
+		"promedio":"'.$promedio.'",
+		"cantidad":"'.$cantidad.'"
+	}';
 }
 
 $outJson .= "]";
