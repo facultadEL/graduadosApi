@@ -99,7 +99,7 @@ if($idEmpresa == "-1") //Creo la empresa y el descuento
 	$r = pg_fetch_array($s);
 	$nextId = $r['max'] + 1;
 	
-	$c = "INSERT INTO empresa(id,nombre,regional_fk,imagen) VALUES('$nextId','$empresa',(SELECT regional_fk FROM alumno WHERE id='$id'),'$destino_bd');";
+	$c = "INSERT INTO empresa(id,nombre,regional_fk,imagen) VALUES('$nextId','$empresa',(SELECT regional_fk FROM alumno WHERE id_alumno='$id'),'$destino_bd');";
 	
 	$c .= "INSERT INTO descuento(nombre,url,detalle,empresa_fk) VALUES('$titulo','$url','$detalle','$nextId');";
 
@@ -109,7 +109,7 @@ else
 	$c = "INSERT INTO descuento(nombre,url,detalle,empresa_fk) VALUES('$titulo','$url','$detalle','$idEmpresa');";
 }
 
-$success = true;
+$success = 't';
 
 $error = 0;
 if (!pg_query($c)){
@@ -123,11 +123,12 @@ pg_query($termino);
 
 if($error == 1)
 {
-	$success = false;
+	$success = 'f';
 }
 
 $outJson = '[{
 	"success":"'.$success.'",
+	"c":"'.$c.'"
 }]';
 
 pg_close($conn);
