@@ -22,7 +22,7 @@ $regional = empty($_REQUEST['regional']) ? '' : $_REQUEST['regional'];
 $celId = $_REQUEST['celId'];
 $fijoId = $_REQUEST['fijoId'];
 
-$create = false;
+$create = 'f';
 
 if($id != "-1")
 {
@@ -46,6 +46,11 @@ if($id != "-1")
 
 	$cTel = "";
 	
+	$cTelId = "SELECT max(id_telefonos_del_alumno) FROM telefonos_del_alumno;";
+	$sTelId = pg_query($cTelId);
+	$rTelId = pg_fetch_array($sTelId);
+	$maxTelId = $rTelId['max'];
+	
 	if($celId != '-1')
 	{
 		$cTel .= "UPDATE telefonos_del_alumno SET duenio_del_telefono='Cel', caracteristica_alumno='$caracCel',telefono_alumno='$cel' WHERE id_telefonos_del_alumno='$celId';";
@@ -54,7 +59,8 @@ if($id != "-1")
 	{
 		if($caracCel != '' && $cel != '')
 		{
-			$cTel .= "INSERT INTO telefonos_del_alumno(duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('Cel','$caracCel','$cel','$id');";
+			$maxTelId++;
+			$cTel .= "INSERT INTO telefonos_del_alumno(id_telefonos_del_alumno,duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('$maxTelId','Cel','$caracCel','$cel','$id');";
 		}
 	}
 	
@@ -66,7 +72,8 @@ if($id != "-1")
 	{
 		if($caracFijo != '' && $fijo != '')
 		{
-			$cTel .= "INSERT INTO telefonos_del_alumno(duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('Fijo','$caracFijo','$fijo','$id');";
+			$maxTelId++;
+			$cTel .= "INSERT INTO telefonos_del_alumno(id_telefonos_del_alumno,duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('$maxTelId','Fijo','$caracFijo','$fijo','$id');";
 		}
 	}
 	
@@ -86,21 +93,28 @@ else
 
 	$cTel = "";
 
+	$cTelId = "SELECT max(id_telefonos_del_alumno) FROM telefonos_del_alumno;";
+	$sTelId = pg_query($cTelId);
+	$rTelId = pg_fetch_array($sTelId);
+	$maxTelId = $rTelId['max'];
+
 	if($caracCel != '' && $cel != '')
 	{
-		$cTel .= "INSERT INTO telefonos_del_alumno(duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('Cel','$caracCel','$cel','$idAl');";
+		$maxTelId++;
+		$cTel .= "INSERT INTO telefonos_del_alumno(id_telefonos_del_alumno,duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('$maxTelId','Cel','$caracCel','$cel','$idAl');";
 	}
 
 	if($caracFijo != '' && $fijo != '')
 	{
-		$cTel .= "INSERT INTO telefonos_del_alumno(duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('Fijo','$caracFijo','$fijo','$idAl');";
+		$maxTelId++;
+		$cTel .= "INSERT INTO telefonos_del_alumno(id_telefonos_del_alumno,duenio_del_telefono,caracteristica_alumno,telefono_alumno,alumno_fk) VALUES('$maxTelId','Fijo','$caracFijo','$fijo','$idAl');";
 	}
 	
 	$sqlGuardar = $cCreate.$cTel;
-	$create = true;
+	$create = 't';
 }
 
-$success = true;
+$success = 't';
 
 $error = 0;
 if (!pg_query($sqlGuardar)){
@@ -114,12 +128,11 @@ pg_query($termino);
 
 if($error == 1)
 {
-	$success = false;
+	$success = 'f';
 }
 
 $outJson = '[{
 	"success":"'.$success.'",
-	"sql":"'.$sqlGuardar.'",
 	"created":"'.$create.'"
 }]';
 
