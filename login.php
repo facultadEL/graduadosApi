@@ -25,7 +25,7 @@ while($rLogin = pg_fetch_array($sLogin))
 	}';
 	
 	$date = date('Y-m-d');
-	$cUpdate = "UPDATE alumno SET ultimo_login='$date' WHERE id='$id';";
+	$cUpdate = "UPDATE alumno SET ultimo_login='$date' WHERE id_alumno='$id';";
 	pg_query($cUpdate);
 	
 }
