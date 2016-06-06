@@ -132,6 +132,28 @@ if($error == 1)
 {
 	$success = 'f';
 }
+else if($create == 't')
+{
+	$to = 'graduadosutnvillamaria@gmail.com';
+	
+	require ("PHPMailer_5.2.1/class.phpmailer.php");
+
+	$cuerpo = "Este mensaje es generado por la aplicación de graduados<br>Se ha registrado un graduado nuevo. Sus datos son:<br><b>Nombre:</b> $nombre<br><b>Apellido: </b>$apellido<br><b>DNI: </b>$dni<br>Para habilitarlo haga click <a href='http://extension.frvm.utn.edu.ar/graduadosApi/habilitarByMail.php?idHabilitar=".$idAl."' target='_blank'>aquí</a>.";
+	$asunto = 'Nuevo graduado';
+	$sendFrom = 'graduadosutnvillamaria@gmail.com';
+	$from_name = 'Graduados - FRVM';
+
+	include_once "datosMail.php";
+
+	for($i = 0; $i < 5;$i++)
+	{
+		$exito = $mail->Send(); // Envía el correo.1
+		if($exito)
+		{
+			$i=5;
+		}
+	}
+}
 
 $outJson = '[{
 	"success":"'.$success.'",

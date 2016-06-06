@@ -26,6 +26,7 @@ if($id != -1)
 		$localidadId = $r['localidad_viviendo_alumno'];
 		$fechaNac = $r['fechanacimiento_alumno'];
 		$regional = $r['regional_fk'];
+		$especialidad = $r['carrera_alumno'];
 		
 		$cLoc = "SELECT l.nombre as loc,p.nombre as prov FROM localidad l INNER JOIN provincia p ON(l.fk_provincia = p.id) WHERE l.id='$localidadId';";
 		$sLoc = pg_query($cLoc);
@@ -96,6 +97,7 @@ if($id != -1)
 			"caracCel":"'.$caracCel.'",
 			"cel":"'.$cel.'",
 			"fechaNac":"'.$fechaNac.'",
+			"especialidad":"'.$especialidad.'",
 			"isset":"true"
 		}';
 	}
