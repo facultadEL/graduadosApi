@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
 include_once 'conexion.php';
 $sqlGuardar = '';
-$id = $_REQUEST['id'];
+$id = empty($_REQUEST['id']) ? '-1' : $_REQUEST['id'];
 $nombre = empty($_REQUEST['nombre']) ? '' : ucwords(strtolower($_REQUEST['nombre']));
 $apellido = empty($_REQUEST['apellido']) ? '' : ucwords(strtolower($_REQUEST['apellido']));
 $dni = empty($_REQUEST['dni']) ? '' : $_REQUEST['dni'];
@@ -17,7 +17,8 @@ $passRequired = empty($_REQUEST['passRequired']) ? '' : $_REQUEST['passRequired'
 $password = empty($_REQUEST['password']) ? '' : $_REQUEST['password'];
 $fechaNac = empty($_REQUEST['birthDate']) ? '1900-01-01' : $_REQUEST['birthDate'];
 $localidadId = empty($_REQUEST['localidadId']) ? '0' : $_REQUEST['localidadId'];
-$regional = empty($_REQUEST['regional']) ? '' : $_REQUEST['regional']; 
+$regional = empty($_REQUEST['regional']) ? '0' : $_REQUEST['regional'];
+$especialidad = empty($_REQUEST['especialidad']) ? '0' : $_REQUEST['especialidad'];
 
 $celId = $_REQUEST['celId'];
 $fijoId = $_REQUEST['fijoId'];
@@ -40,7 +41,8 @@ if($id != "-1")
 		$password = md5($password);
 		$cUpdate.= ",pass='$password' ";
 	}
-	if($regional != '') $cUpdate.= ",regional_fk='$regional' ";
+	if($regional != '0') $cUpdate.= ",regional_fk='$regional' ";
+	if($especialidad != '0') $cUpdate.= ",carrera_alumno='$especialidad' ";
 
 	$cUpdate .= "WHERE id_alumno='$id';";
 
@@ -89,7 +91,7 @@ else
 
 	$password = md5($password);
 
-	$cCreate = "INSERT INTO alumno(id_alumno,primer_login,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,username,pass,fechanacimiento_alumno,localidad_viviendo_alumno,regional_fk) VALUES('$idAl','FALSE','$nombre','$apellido','$dni','$email','$username','$password','$fechaNac','$localidadId','$regional');";
+	$cCreate = "INSERT INTO alumno(id_alumno,primer_login,nombre_alumno,apellido_alumno,numerodni_alumno,mail_alumno,username,pass,fechanacimiento_alumno,localidad_viviendo_alumno,regional_fk,carrera_alumno) VALUES('$idAl','FALSE','$nombre','$apellido','$dni','$email','$username','$password','$fechaNac','$localidadId','$regional','$especialidad');";
 
 	$cTel = "";
 
@@ -133,7 +135,8 @@ if($error == 1)
 
 $outJson = '[{
 	"success":"'.$success.'",
-	"created":"'.$create.'"
+	"created":"'.$create.'",
+	"query":"'.$sqlGuardar.'"
 }]';
 
 pg_close($conn);
