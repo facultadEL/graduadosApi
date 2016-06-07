@@ -28,6 +28,13 @@ if($id != -1)
 		$regional = $r['regional_fk'];
 		$especialidad = $r['carrera_alumno'];
 		
+		$cC = "SELECT c.nombre_carrera,r.nombre FROM carrera c INNER JOIN regional r ON(r.id = c.regional_fk) WHERE id_carrera='$especialidad';";
+		$sC = pg_query($cC);
+		$rC = pg_fetch_array($sC);
+
+		$regionalNombre = $rC['nombre'];
+		$especialidadNombre = $rC['nombre_carrera'];
+
 		$cLoc = "SELECT l.nombre as loc,p.nombre as prov FROM localidad l INNER JOIN provincia p ON(l.fk_provincia = p.id) WHERE l.id='$localidadId';";
 		$sLoc = pg_query($cLoc);
 		$rLoc = pg_fetch_array($sLoc);
@@ -98,6 +105,8 @@ if($id != -1)
 			"cel":"'.$cel.'",
 			"fechaNac":"'.$fechaNac.'",
 			"especialidad":"'.$especialidad.'",
+			"especialidadNombre":"'.$especialidadNombre.'",
+			"regionalNombre":"'.$regionalNombre.'",
 			"isset":"true"
 		}';
 	}
