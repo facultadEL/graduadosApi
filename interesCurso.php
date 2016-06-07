@@ -10,7 +10,7 @@ $cM = "SELECT nombre_alumno,apellido_alumno,mail_alumno FROM alumno WHERE id_alu
 $sM = pg_query($cM); 
 $rM = pg_fetch_array($sM);
 
-$to = 'eze.olea.f@gmail.com';
+$to = 'graduadosutnvillamaria@gmail.com';
 
 $n = $rM['nombre_alumno'];
 $a = $rM['apellido_alumno'];
