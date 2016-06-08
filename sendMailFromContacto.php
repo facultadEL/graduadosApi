@@ -4,13 +4,14 @@ include_once "conexion.php";
 
 $id = empty($_REQUEST['id']) ? '-1' : $_REQUEST['id'];
 $asunto = empty($_REQUEST['asunto']) ? '' : $_REQUEST['asunto'];
-$descripcion = empty($_REQUEST['descripcion']) ? '' : $_REQUEST['descripcion'];
+$descripcion = empty($_REQUEST['mensaje']) ? '' : $_REQUEST['mensaje'];
 
 $cM = "SELECT nombre_alumno,apellido_alumno,mail_alumno FROM alumno WHERE id_alumno='$id';";
 $sM = pg_query($cM); 
 $rM = pg_fetch_array($sM);
 
-$to = 'graduadosutnvillamaria@gmail.com';
+//$to = 'graduadosutnvillamaria@gmail.com';
+$to = 'eze.olea.f@gmail.com';
 
 $n = $rM['nombre_alumno'];
 $a = $rM['apellido_alumno'];
