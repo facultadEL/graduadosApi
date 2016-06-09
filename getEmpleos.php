@@ -2,38 +2,35 @@
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
 include_once "conexion.php";
 
-/* Esto se deja preparado en caso de que solo se quiera traer pocas cantidades
-$from = $_REQUEST['from']; //Este es el id del ultimo trabajo
-$limit = $_REQUEST['limit']; //La cantidad de trabajos a traer
-*/
-$c = "SELECT * FROM empleo WHERE active IS TRUE";
+$c = "SELECT t.*,r.nombre as regional,r.abreviatura,e.nombre as empresa FROM empleo t INNER JOIN regional r ON(r.id = t.regional_fk) INNER JOIN empresa e ON(t.empresa_fk = e.id) WHERE t.activo IS TRUE;";
 $s = pg_query($c);
 
 $outJson = "[";
 
 while($r = pg_fetch_array($s))
 {
+
 	if($outJson != "[")
 	{
 		$outJson .= ",";
 	}
-	
-	$nombre = $r['nombre'];
-	$carrera = $r['carrera_ideal'];
-	$tambienAplica = $r['tambien_aplica'];
-	$descripcion = $r['descripcion'];
-	$caracContacto = $r['carac_contacto'];
-	$telContacto = $r['tel_contacto'];
-	$mailContacto = $r['mail_contacto'];
+
+	$id = $r['id'];
+	$puesto = $r['puesto'];
+	$detalle = $r['detalle'];
+	$requisitos = $r['requisitos'];
+	$regional = $r['regional'];
+	$regionalAbreviatura = $r['abreviatura'];
+	$empresa = $r['empresa'];
 	
 	$outJson .= '{
-		"nombre":"'.$nombre.'",
-		"carrera":"'.$carrera.'",
-		"tambienAplica":"'.$tambienAplica.'",
-		"descripcion":"'.$descripcion.'",
-		"caracteristica":"'.$caracContacto.'",
-		"telefono":"'.$telContacto.'",
-		"mail":"'.$mailContacto.'"
+		"id":"'.$id.'",
+		"puesto":"'.$puesto.'",
+		"detalle":"'.$detalle.'",
+		"requisitos":"'.$requisitos.'",
+		"regional":"'.$regional.'",
+		"regionalAbreviatura":"'.$regionalAbreviatura.'",
+		"empresa":"'.$empresa.'"
 	}';
 }
 
@@ -42,5 +39,4 @@ $outJson .= "]";
 pg_close($conn);
 
 echo $outJson;
-
 ?>
