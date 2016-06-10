@@ -5,7 +5,7 @@ include_once "conexion.php";
 $user = $_REQUEST['user'];
 $pass = md5($_REQUEST['pass']);
 
-$cLogin = "SELECT * FROM alumno WHERE username='$user' AND pass='$pass';";
+$cLogin = "SELECT primer_login,id_alumno,habilitado,administrador,ultimo_login FROM alumno WHERE username='$user' AND pass='$pass';";
 $sLogin = pg_query($cLogin);
 
 $outJson = "[";
@@ -15,13 +15,15 @@ while($rLogin = pg_fetch_array($sLogin))
 	$id = $rLogin['id_alumno'];
 	$habilitado = $rLogin['habilitado'];
 	$administrador = $rLogin['administrador'];
-	
+	$ultimoLogin = $rLogin['ultimo_login'];
+
 	$outJson .= '{
 		"success":true,
 		"first":"'.$first.'",
 		"id":"'.$id.'",
 		"habilitado":"'.$habilitado.'",
-		"administrador":"'.$administrador.'"
+		"administrador":"'.$administrador.'",
+		"ultimoLogin":"'.$ultimoLogin.'"
 	}';
 	
 	$date = date('Y-m-d');
