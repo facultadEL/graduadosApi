@@ -2,7 +2,7 @@
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
 include_once "conexion.php";
 
-$rubro = $REQUEST['rubro'];
+//$rubro = $REQUEST['rubro'];
 
 $c = "SELECT * FROM rubro";
 $s = pg_query($c);
