@@ -27,7 +27,7 @@ if($idNovedad == -1)
     $r = pg_fetch_array($s);
     $nextId = $r['max'] + 1;
 
-    $c = "INSERT INTO novedad(id,titulo,detalle,tipo_fk,regional_fk,carrera_fk) VALUES('$nextId','$titulo','$desarrollo','$tipo','$regional','$especialidad');";
+    $c = "INSERT INTO novedad(id,titulo,detalle,tipo_fk,regional_fk,carrera_fk) VALUES($nextId,'$titulo','$desarrollo',$tipo,$regional,$especialidad);";
 }
 $success = 't';
 
