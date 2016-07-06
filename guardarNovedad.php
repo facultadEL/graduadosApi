@@ -14,11 +14,11 @@ function sentence_case($string) {
 include_once "conexion.php";
 
 $idNovedad = empty($_REQUEST['id']) ? '-1' : $_REQUEST['id'];
-$regional = empty($_REQUEST['regional']) ? '' : ucwords(strtolower($_REQUEST['regional']));
-$especialidad = empty($_REQUEST['especialidad']) ? '' : ucwords(strtolower($_REQUEST['especialidad']));
+$regional = empty($_REQUEST['regional']) ? '0' : $_REQUEST['regional'];
+$especialidad = empty($_REQUEST['especialidad']) ? '0' : $_REQUEST['especialidad'];
 $titulo = empty($_REQUEST['titulo']) ? '' : ucwords(strtolower($_REQUEST['titulo']));
 $desarrollo = empty($_REQUEST['desarrollo']) ? '' : ucwords(strtolower($_REQUEST['desarrollo']));
-$tipo = empty($_REQUEST['tipo']) ? '' : ucwords(strtolower($_REQUEST['tipo']));
+$tipo = $_REQUEST['tipo'];
 
 if($idNovedad == -1)
 {
