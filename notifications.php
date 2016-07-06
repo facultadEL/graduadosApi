@@ -6,7 +6,7 @@ class Notification{
 
     function __construct()
     {
-        $this->serverKey = 'AIzaSyAwcmK_bVLgtUUX0tAqrubQb_5VFQkGPsc';
+        $this->serverKey = 'AIzaSyDLgqqU21RtAMipUjvJJiLUXDc3eQOv4l0';
         $this->title = 'Graduate';
         $this->message = 'Notification';
     }
@@ -40,7 +40,7 @@ class Notification{
         );
         $headers = array
         (
-        'Authorization: key=' . API_ACCESS_KEY,
+        'Authorization: key=' . $this->serverKey,
         'Content-Type: application/json'
         );
         $ch = curl_init();
