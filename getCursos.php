@@ -2,9 +2,19 @@
 header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que permita las conexiones de afuera
 include_once "conexion.php";
 
-$c = "SELECT c.*,r.nombre as regional,r.abreviatura FROM curso c INNER JOIN regional r ON(r.id = c.regional_fk) WHERE activo IS TRUE ORDER BY c.fecha_creacion DESC;";
-$s = pg_query($c);
+$id = $_REQUEST['id'];
+$regional = $_REQUEST['regional'];
+$excIds = $_REQUEST['excIds'];
+$total = 10;
+$condition = "";
 
+if($regional == 'true')
+{
+    $condition = " AND r.id=(SELECT regional_fk FROM alumno WHERE id_alumno='$id') ";
+}
+
+$c = "SELECT c.*,r.nombre as regional,r.abreviatura FROM curso c INNER JOIN regional r ON(r.id = c.regional_fk) WHERE activo IS TRUE $condition AND c.id NOT IN $excIds ORDER BY c.fecha_creacion DESC LIMIT $total;";
+$s = pg_query($c);
 $outJson = "[";
 
 while($r = pg_fetch_array($s))
