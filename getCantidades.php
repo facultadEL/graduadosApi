@@ -20,16 +20,22 @@ $s = pg_query($c);
 $r = pg_fetch_array($s);
 $cPosgrado = $r['cant'];
 
-$c = "SELECT count(id) AS cant FROM curso a WHERE fecha_creacion >= '$lastLogin';";
+$c = "SELECT count(id) AS cant FROM curso WHERE fecha_creacion >= '$lastLogin';";
 $s = pg_query($c);
 $r = pg_fetch_array($s);
 $cCurso = $r['cant'];
+
+$c = "SELECT count(id) AS cant FROM novedad WHERE fecha_creacion >= '$lastLogin';";
+$s = pg_query($c);
+$r = pg_fetch_array($s);
+$cNovedad = $r['cant'];
 
 $outJson = '[{
     "cEmpleo":"'.$cEmpleo.'",
     "cDescuento":"'.$cDescuento.'",
     "cPosgrado":"'.$cPosgrado.'",
-    "cCurso":"'.$cCurso.'"
+    "cCurso":"'.$cCurso.'",
+    "cNovedad":"'.$cNovedad.'"
 }]';
 
 pg_close($conn);
