@@ -19,6 +19,7 @@ $especialidad = $_REQUEST['especialidad'];
 $titulo = empty($_REQUEST['titulo']) ? '' : ucwords(strtolower($_REQUEST['titulo']));
 $desarrollo = empty($_REQUEST['desarrollo']) ? '' : ucwords(strtolower($_REQUEST['desarrollo']));
 $tipo = $_REQUEST['tipo'];
+$notificationOn = empty($_REQUEST['notify']) ? 't' : $_REQUEST['notify'];
 
 if($idNovedad == -1)
 {
@@ -46,9 +47,23 @@ if($error == 1)
 	$success = 'f';
 }
 
+if($success == 't' && $notificationOn == 't')
+{
+	include 'notifications.php';
+	$cReg = "SELECT registration_id FROM alumno WHERE registration_id IS NOT NULL AND registration_id != '' GROUP BY registration_id;";
+	$sReg = pg_query($cReg);
+	$noty = new Notification();
+	$noty->setData('Nueva novedad',$titulo);
+	while($rReg = pg_fetch_array($sReg))
+	{
+		$regId = $rReg['registration_id'];
+		$noty->sendPush($regId);
+	}
+
+}
+
 $outJson = '[{
-	"success":"'.$success.'",
-	"c":"'.$c.'"
+	"success":"'.$success.'"
 }]';
 
 pg_close($conn);
