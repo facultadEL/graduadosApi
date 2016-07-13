@@ -19,7 +19,7 @@ $especialidad = $_REQUEST['especialidad'];
 $titulo = empty($_REQUEST['titulo']) ? '' : ucwords(strtolower($_REQUEST['titulo']));
 $desarrollo = empty($_REQUEST['desarrollo']) ? '' : ucwords(strtolower($_REQUEST['desarrollo']));
 $tipo = $_REQUEST['tipo'];
-$notificationOn = empty($_REQUEST['notify']) ? 't' : $_REQUEST['notify'];
+$notificationOn = empty($_REQUEST['notify']) ? 'f' : $_REQUEST['notify'];
 
 if($idNovedad == -1)
 {
@@ -59,7 +59,6 @@ if($success == 't' && $notificationOn == 't')
 		$regId = $rReg['registration_id'];
 		$noty->sendPush($regId);
 	}
-
 }
 
 $outJson = '[{

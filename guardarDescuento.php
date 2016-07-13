@@ -18,6 +18,7 @@ $id = $_REQUEST['id'];
 $url = $_REQUEST['url'];
 $detalle = sentence_case($_REQUEST['detalle']);
 $titulo = ucwords(strtolower($_REQUEST['titulo']));
+$notificationOn = empty($_REQUEST['notify']) ? 'f' : $_REQUEST['notify'];
 
 if($idEmpresa == "-1") //Creo la empresa y el descuento
 {
@@ -126,9 +127,22 @@ if($error == 1)
 	$success = 'f';
 }
 
+if($success == 't' && $notificationOn == 't')
+{
+	include 'notifications.php';
+	$cReg = "SELECT registration_id FROM alumno WHERE registration_id IS NOT NULL AND registration_id != '' GROUP BY registration_id;";
+	$sReg = pg_query($cReg);
+	$noty = new Notification();
+	$noty->setData('Nuevo descuento',$titulo);
+	while($rReg = pg_fetch_array($sReg))
+	{
+		$regId = $rReg['registration_id'];
+		$noty->sendPush($regId);
+	}
+}
+
 $outJson = '[{
-	"success":"'.$success.'",
-	"c":"'.$c.'"
+	"success":"'.$success.'"
 }]';
 
 pg_close($conn);
