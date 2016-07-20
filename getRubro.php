@@ -4,7 +4,7 @@ include_once "conexion.php";
 
 //$rubro = $REQUEST['rubro'];
 
-$c = "SELECT * FROM rubro";
+$c = "SELECT * FROM rubro ORDER BY nombre ASC";
 $s = pg_query($c);
 
 $outJson = "[";

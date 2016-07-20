@@ -3,8 +3,11 @@ header('Access-Control-Allow-Origin: *'); //Esto va cada vez para asegurarse que
 include_once "conexion.php";
 
 $id = $_REQUEST['id'];
+$rubro = $_REQUEST['rubro'];
 
-$c = "SELECT d.id,d.nombre as titulo,d.detalle,e.imagen,e.nombre as empresa,r.nombre as rubro,e.url,coalesce(p.puntuacion,0) as puntuacion, coalesce((select avg(puntuacion) FROM puntaje WHERE descuento_fk=d.id),0) as promedio, (select count(id) from puntaje where descuento_fk=d.id) as cant FROM descuento d INNER JOIN empresa e ON(d.empresa_fk=e.id) INNER JOIN rubro r ON(e.rubro_fk = r.id) LEFT JOIN puntaje p ON(p.alumno_fk = '$id' AND p.descuento_fk=d.id) WHERE e.regional_fk=(SELECT regional_fk FROM alumno WHERE id_alumno='$id') ORDER BY d.fecha_creacion DESC;";
+$condRubro = ($rubro == '0') ? '' : " AND r.id='$rubro' "; 
+
+$c = "SELECT d.id,d.nombre as titulo,d.detalle,e.imagen,e.nombre as empresa,r.nombre as rubro,e.url,coalesce(p.puntuacion,0) as puntuacion, coalesce((select avg(puntuacion) FROM puntaje WHERE descuento_fk=d.id),0) as promedio, (select count(id) from puntaje where descuento_fk=d.id) as cant FROM descuento d INNER JOIN empresa e ON(d.empresa_fk=e.id) INNER JOIN rubro r ON(e.rubro_fk = r.id) LEFT JOIN puntaje p ON(p.alumno_fk = '$id' AND p.descuento_fk=d.id) WHERE e.regional_fk=(SELECT regional_fk FROM alumno WHERE id_alumno='$id')$condRubro ORDER BY d.fecha_creacion DESC;";
 $s = pg_query($c);
 
 $outJson = "[";
